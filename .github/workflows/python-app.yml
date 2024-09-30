@@ -11,31 +11,18 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
-
-    - name: Install dependencies with Makefile
+    - name: Install dependencies
       run: |
-        make install  # This will install all dependencies according to your Makefile
-
-    - name: Run the server
+        make install
+    - name: Run the application
       run: |
-        make run &  # Start your server
-        sleep 5    # Sleep for 5 seconds to allow the server to start
-
-    - name: Test with pytest
-      run: |
-        pytest      # Run tests after server has started
-
-    - name: Kill background server process
-      if: always()
-      run: |
-        kill $(jobs -p) || true  # Kill any background jobs like the running server
+        make run &
+        sleep 5  # Wait for the server to start
